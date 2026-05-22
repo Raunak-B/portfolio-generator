@@ -68,7 +68,6 @@ export function DashboardClient({
   function handleSignOut() {
     startSignOut(async () => {
       await signOutAction();
-      window.location.href = "/";
     });
   }
 

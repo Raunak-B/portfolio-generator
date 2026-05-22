@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { PORTFOLIO_THEMES, type PortfolioTheme } from "@/lib/constants";
 import type { LanguageStat, PortfolioRepository } from "@/lib/github/types";
 import { createClient } from "@/lib/supabase/server";
@@ -79,4 +80,5 @@ export async function signOutAction() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
+  redirect("/login");
 }

@@ -2,8 +2,6 @@ import { redirect } from "next/navigation";
 import { DashboardClient } from "@/components/dashboard/dashboard-client";
 import { getOwnerPortfolio } from "@/lib/portfolio/queries";
 import { createClient } from "@/lib/supabase/server";
-import type { DbPortfolio } from "@/types/database";
-
 export const metadata = {
   title: "Dashboard | Portfolio Generator",
 };
@@ -29,8 +27,7 @@ export default async function DashboardPage() {
     redirect("/login?error=profile_missing");
   }
 
-  const portfolioRow = await getOwnerPortfolio(user.id);
-  const portfolio = portfolioRow as DbPortfolio | null;
+  const portfolio = await getOwnerPortfolio(user.id);
 
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
