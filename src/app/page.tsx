@@ -11,17 +11,17 @@ export default async function HomePage() {
     <div className="min-h-screen bg-slate-950 text-white">
       <div className="mx-auto flex min-h-screen max-w-5xl flex-col justify-center px-4 py-16 sm:px-6">
         <p className="text-sm font-semibold uppercase tracking-widest text-cyan-400">
-          Dynamic Portfolio Generator
+          Resume → Portfolio SaaS
         </p>
         <h1 className="mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
-          Turn your GitHub profile into a{" "}
-          <span className="text-cyan-400">stunning portfolio</span> in minutes.
+          Upload your resume. Get a{" "}
+          <span className="text-cyan-400">permanent portfolio</span> instantly.
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-slate-400">
-          Sign in with GitHub, pull your top repositories and languages, customize
-          your bio and theme, and publish a public page at{" "}
+          Sign in, drop your PDF or text resume, and our AI builds a polished
+          portfolio hosted at{" "}
           <code className="rounded bg-slate-800 px-2 py-0.5 text-cyan-300">
-            yourdomain.com/username
+            yourdomain.com/p/username
           </code>
           .
         </p>
@@ -38,30 +38,24 @@ export default async function HomePage() {
               href="/login"
               className="rounded-xl bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400"
             >
-              Get started with GitHub
+              Get started
             </Link>
           )}
-          <Link
-            href="/login"
-            className="rounded-xl border border-slate-700 px-6 py-3 text-sm text-slate-300 transition hover:border-slate-500"
-          >
-            Sign in
-          </Link>
         </div>
 
         <ul className="mt-16 grid gap-4 sm:grid-cols-3">
           {[
             {
-              title: "GitHub OAuth",
-              body: "Secure login via Supabase Auth with your GitHub identity.",
+              title: "Secure auth",
+              body: "Email sign-up powered by Supabase Auth.",
             },
             {
-              title: "Auto-sync repos",
-              body: "Top 6 starred repos and primary languages fetched via REST API.",
+              title: "AI parsing",
+              body: "GPT-4 Turbo extracts skills, experience, and projects.",
             },
             {
-              title: "Public portfolios",
-              body: "RLS-backed multi-tenant pages readable by anyone when published.",
+              title: "Permanent URL",
+              body: "Every portfolio lives at /p/[username] with your branding footer.",
             },
           ].map((item) => (
             <li

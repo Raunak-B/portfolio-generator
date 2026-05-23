@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LoginButton } from "@/components/login/login-button";
+import { AuthForm } from "@/components/login/auth-form";
 
 type LoginPageProps = {
   searchParams: Promise<{
@@ -21,10 +21,12 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         >
           ← Back
         </Link>
-        <h1 className="mt-6 text-2xl font-bold text-white">Sign in</h1>
+        <h1 className="mt-6 text-2xl font-bold text-white">
+          {params.error ? "Sign in again" : "Welcome"}
+        </h1>
         <p className="mt-2 text-sm text-slate-400">
-          Connect your GitHub account to generate a portfolio from your repos
-          and contribution data.
+          Upload your resume and get a permanent portfolio at{" "}
+          <code className="text-cyan-300">/p/username</code>.
         </p>
 
         {params.error ? (
@@ -33,13 +35,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           </p>
         ) : null}
 
-        <div className="mt-8">
-          <LoginButton redirectTo={redirectTo} />
-        </div>
-
-        <p className="mt-6 text-center text-xs text-slate-500">
-          We request read access to your public GitHub profile and repositories.
-        </p>
+        <AuthForm redirectTo={redirectTo} />
       </div>
     </div>
   );
