@@ -156,7 +156,7 @@ export function ResumeUpload({
               : "Drag & drop your resume"}
         </p>
         <p className="mt-2 text-sm text-slate-400">
-          PDF or plain text (.txt) · Max 10 MB
+          PDF or plain text (.txt) · Max 10 MB · Free unlimited parsing
         </p>
         {!isBusy ? (
           <p className="mt-4 text-sm text-cyan-400">or click to browse files</p>

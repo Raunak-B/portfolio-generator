@@ -43,7 +43,7 @@ export async function parseResumeWithGemini(
     const body = await response.text();
     if (response.status === 429) {
       throw new ResumeParseError(
-        "Gemini free quota exceeded. Set RESUME_PARSER_PROVIDER=heuristic in Vercel for unlimited free parsing, or enable API billing in Google AI Studio."
+        "Gemini quota exceeded (429). Falling back to free parser."
       );
     }
     throw new ResumeParseError(

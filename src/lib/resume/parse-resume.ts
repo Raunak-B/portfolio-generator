@@ -14,7 +14,7 @@ export type ResumeParserProvider =
 export { ResumeParseError };
 
 function getProvider(): ResumeParserProvider {
-  const configured = process.env.RESUME_PARSER_PROVIDER?.toLowerCase();
+  const configured = process.env.RESUME_PARSER_PROVIDER?.toLowerCase().trim();
 
   if (
     configured === "heuristic" ||
@@ -25,15 +25,27 @@ function getProvider(): ResumeParserProvider {
     return configured;
   }
 
-  // Default: unlimited free parsing on Vercel (no API keys or quotas).
   return "heuristic";
 }
 
-export async function parseResumeText(
+function shouldFallbackToHeuristic(error: unknown): boolean {
+  if (!(error instanceof ResumeParseError)) {
+    return false;
+  }
+
+  const message = error.message.toLowerCase();
+  return (
+    message.includes("quota") ||
+    message.includes("429") ||
+    message.includes("rate limit") ||
+    message.includes("resource_exhausted")
+  );
+}
+
+async function runProvider(
+  provider: ResumeParserProvider,
   resumeText: string
 ): Promise<ParsedResumePortfolio> {
-  const provider = getProvider();
-
   switch (provider) {
     case "heuristic":
       return parseResumeWithHeuristics(resumeText);
@@ -45,5 +57,24 @@ export async function parseResumeText(
       return parseResumeWithOpenAI(resumeText);
     default:
       throw new ResumeParseError(`Unknown resume parser provider: ${provider}`);
+  }
+}
+
+export async function parseResumeText(
+  resumeText: string
+): Promise<ParsedResumePortfolio> {
+  const provider = getProvider();
+
+  if (provider === "heuristic") {
+    return parseResumeWithHeuristics(resumeText);
+  }
+
+  try {
+    return await runProvider(provider, resumeText);
+  } catch (error) {
+    if (shouldFallbackToHeuristic(error)) {
+      return parseResumeWithHeuristics(resumeText);
+    }
+    throw error;
   }
 }
